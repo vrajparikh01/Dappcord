@@ -13,6 +13,12 @@ async function main() {
   await dappcord.deployed();
   console.log("Dappcord deployed to:", dappcord.address);
 
+  // Verify the contract
+  // await hre.run("verify:verify", {
+  //   address: dappcord.address,
+  //   constructorArguments: [],
+  // });
+
   const channel = ["general", "dev", "memes"];
   const cost = [tokens(0), tokens(1), tokens(0.5)];
 

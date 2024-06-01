@@ -26,10 +26,10 @@ contract Dappcord is ERC721, ERC721Burnable, Ownable {
     }
 
     function mint(uint256 _id) public payable {
-        require(_id != 0);
-        require(_id <= totalChannels);
-        require(hasJoined[_id][msg.sender] == false);
-        require(msg.value >= channels[_id].cost);
+        require(_id != 0, "Invalid channel id");
+        require(_id <= totalChannels, "Channel does not exist");
+        require(hasJoined[_id][msg.sender] == false, "Already joined this channel");
+        require(msg.value >= channels[_id].cost, "Insufficient funds");
 
         hasJoined[_id][msg.sender] = true;
         totalSupply++;
@@ -43,6 +43,6 @@ contract Dappcord is ERC721, ERC721Burnable, Ownable {
 
     function withdraw() public onlyOwner {
         (bool success, ) = owner().call{value: address(this).balance}("");
-        require(success);
+        require(success, "Transfer failed");
     }
 }

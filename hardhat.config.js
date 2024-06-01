@@ -3,22 +3,14 @@ require("@nomiclabs/hardhat-etherscan");
 require("@nomiclabs/hardhat-ethers");
 require("hardhat-abi-exporter");
 require("hardhat-gas-reporter");
+require("solidity-coverage");
 require("dotenv").config();
-
-const defaultKey =
-  "0000000000000000000000000000000000000000000000000000000000000000";
-
-const ACCOUNT_PRIVATE_KEY = process.env.ACCOUNT_PRIVATE_KEY;
-const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY;
-const GOERLI_URL = process.env.GOERLI_URL;
-const OPTIMIZER_RUNS = process.env.OPTIMIZER_RUNS;
-const OPTIMIZER_FLAG = process.env.OPTIMIZER_FLAG;
 
 module.exports = {
   solidity: {
     compilers: [
       {
-        version: "0.8.18",
+        version: "0.8.19",
         settings: {
           optimizer: {
             enabled: true,
