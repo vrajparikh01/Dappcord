@@ -23,6 +23,7 @@ function App() {
   const [dappcord, setDappcord] = useState(null);
   const [channels, setChannels] = useState([]);
   const [currentChannel, setCurrentChannel] = useState(null);
+  const [messages, setMessages] = useState([]);
 
   const loadBlockchainData = async () => {
     const provider = new ethers.providers.JsonRpcProvider(
@@ -56,6 +57,26 @@ function App() {
 
   useEffect(() => {
     loadBlockchainData();
+
+    socket.on("connect", () => {
+      console.log("Connected to server");
+      socket.emit("get messages");
+    });
+
+    socket.on("new message", () => {
+      setMessages(messages);
+    });
+
+    socket.on("get messages", (messages) => {
+      console.log("Messages received", messages);
+      setMessages(messages);
+    });
+
+    return () => {
+      socket.off("connect");
+      socket.off("new message");
+      socket.off("get messages");
+    };
   }, []);
 
   return (
@@ -71,7 +92,11 @@ function App() {
           currentChannel={currentChannel}
           setCurrentChannel={setCurrentChannel}
         />
-        <Messages />
+        <Messages
+          account={account}
+          messages={messages}
+          currentChannel={currentChannel}
+        />
       </main>
     </div>
   );
